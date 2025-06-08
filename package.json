@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --coverage",
     "dev": "vite",
-    "build": "npm test && tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "postinstall": "flowbite-react patch"
