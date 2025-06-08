@@ -1,19 +1,25 @@
-import { createContext, type ReactElement } from "react";
+import { createContext, useState, useContext, type ReactElement } from "react";
+import type { User } from "../models/user/userModel";
+import { GetCookie } from "../utils/cookieHelper";
 
-interface User {
-    name: string;
-    email: string;
-}
+const AuthenticatedContext = createContext<{
+  user: User | null;
+  setUser: (user: User | null) => void;
+} | null>(null);
 
-const fakeUser = {
-    name: "Neo Amstrong",
-    email: "neo.amstrong@notarealmail.com"
-}
+const AuthenticatedProvider = ({ children }: { children: ReactElement }) => {
+  const [user, setUser] = useState<User | null>(null);
 
-const AuthenticatedContext = createContext<User | null>(null);
+  const userInfo = GetCookie("userInfo")
+  if(userInfo && !user){
+    setUser(JSON.parse(userInfo))
+  }
 
-const AuthenticatedProvider = ({children}: { children: ReactElement }) => {
-    return (<AuthenticatedContext.Provider value={fakeUser}>{children}</AuthenticatedContext.Provider>)
-}
+  return (
+    <AuthenticatedContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthenticatedContext.Provider>
+  );
+};
 
 export { AuthenticatedProvider, AuthenticatedContext };

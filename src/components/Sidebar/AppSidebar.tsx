@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthenticatedContext } from "../../shared/Authenticated";
+import { IsOfficer } from "../../utils/roleHelper";
 
 interface MenuItem {
     name: string;
@@ -7,13 +10,29 @@ interface MenuItem {
 }
 
 const AppSidebar = () => {
+    const auth = useContext(AuthenticatedContext);
+    const user = auth?.user;
+    // console.log(user)
+    const isOfficer = IsOfficer(user!);
     const menuItems: MenuItem[] = [
         {
-            name: 'Users',
-            link: "#",
+            name: 'User Details',
+            link: `/pages/users/${user?.id}/details`,
             icon: '/icons/settings.svg'
         }
     ];
+    if(isOfficer){
+        menuItems.push( {
+            name: 'Preview',
+            link: `/pages/admin/preview`,
+            icon: '/icons/settings.svg'
+        })
+        menuItems.push( {
+            name: 'Results',
+            link: `/pages/admin/results`,
+            icon: '/icons/settings.svg'
+        })
+    }
     return (
         <aside
             id="sidebar"

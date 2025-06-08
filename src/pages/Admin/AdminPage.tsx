@@ -1,13 +1,10 @@
-import ListComponent from '../../components/List/List.tsx';
-import NotFound from '../../404.tsx';
+
+import { Outlet } from 'react-router-dom';
 
 const AdminPage = () => {
     return (
         <>
-            <h1>Admin Page</h1>
-            <ListComponent component={ <NotFound/>}>
-              
-            </ListComponent>
+   <Outlet></Outlet>
         </>
     )
 }

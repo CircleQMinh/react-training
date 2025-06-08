@@ -1,8 +1,8 @@
+import { GetCookie } from "../utils/cookieHelper";
+
 export function requireAuth(request: Request): Response | null {
     // return null;
-    const cookie = request.headers.get("Cookie");
-    const token = parseTokenFromCookie(cookie);
-
+    const token = GetCookie("token");
     if (!token) {
         const url = new URL(request.url);
         return Response.redirect(`/auth/login?redirectTo=${url.pathname}`, 302);
